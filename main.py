@@ -20,7 +20,7 @@ app = FastAPI()
 
 
 # Cargar modelo
-model = load_model("modelo_pajaros.h5")
+model = load_model("modelo_finetuned.h5")
 class_names = [
 "ABBOTTS BABBLER",
 "ABBOTTS BOOBY",
