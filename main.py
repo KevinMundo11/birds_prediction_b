@@ -1,27 +1,14 @@
-# main.py
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
-import numpy as np
 from PIL import Image
-import io
+import numpy as np
 
-app = FastAPI()
+# Modelo entrenado (.h5)
+model = load_model("modelo_aves_mobilenetv2_finetuned.h5")
 
-# Permitir CORS para que el frontend pueda conectarse
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"], 
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-# Cargar modelo
-model = load_model("modelo_finetuned.h5")
-class_names = [
+# Lista de nombres de aves 
+clases = [
 "ABBOTTS BABBLER",
 "ABBOTTS BOOBY",
 "ABYSSINIAN GROUND HORNBILL",
@@ -549,16 +536,31 @@ class_names = [
 "ZEBRA DOVE",
 ]
 
+app = FastAPI()
+
+# Configurar CORS para permitir llamadas desde el frontend (Vercel)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    contents = await file.read()
-    img = Image.open(io.BytesIO(contents)).convert("RGB")
-    img = img.resize((224, 224)) 
-    img_array = np.expand_dims(np.array(img) / 255.0, axis=0)
-    
+    # Leer y preprocesar la imagen
+    image = Image.open(file.file).convert("RGB").resize((224, 224))
+    img_array = np.expand_dims(np.array(image) / 255.0, axis=0)
 
-    predictions = model.predict(img_array)
-    predicted_class = class_names[np.argmax(predictions[0])]
-    confidence = float(np.max(predictions[0]))
+    # Hacer predicción
+    predictions = model.predict(img_array)[0]
+    pred_index = int(np.argmax(predictions))
+    pred_class = clases[pred_index]
+    confidence = float(np.max(predictions))
 
-    return {"class": predicted_class, "confidence": confidence}
+    # Devolver resultado
+    return {
+        "clase": pred_class,
+        "confianza": f"{confidence:.2%}"
+    }
