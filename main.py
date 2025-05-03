@@ -5,7 +5,7 @@ from PIL import Image
 import numpy as np
 
 # Modelo entrenado (.h5)
-model = load_model("modelo_aves_mobilenetv2_finetuned.h5")
+model = load_model("modelo_finetuned.h5")
 
 # Lista de nombres de aves 
 clases = [
