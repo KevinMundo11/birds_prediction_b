@@ -554,11 +554,8 @@ async def predict(file: UploadFile = File(...)):
     contents = await file.read()
     img = Image.open(io.BytesIO(contents)).convert("RGB")
     img = img.resize((224, 224)) 
-    img_array = image.img_to_array(img)
-    img_array = np.expand_dims(img_array, axis=0)
-    img_array /= 255.0
+    img_array = np.expand_dims(np.array(img) / 255.0, axis=0)
     
-
 
     predictions = model.predict(img_array)
     predicted_class = class_names[np.argmax(predictions[0])]
