@@ -10,7 +10,7 @@ import io
 # Permitir CORS para que el frontend pueda conectarse
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
