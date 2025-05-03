@@ -7,6 +7,8 @@ import numpy as np
 from PIL import Image
 import io
 
+app = FastAPI()
+
 # Permitir CORS para que el frontend pueda conectarse
 app.add_middleware(
     CORSMiddleware,
@@ -15,8 +17,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app = FastAPI()
 
 
 # Cargar modelo
