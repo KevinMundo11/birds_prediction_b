@@ -1,3 +1,5 @@
+![MCD](https://mcd.unison.mx/wp-content/themes/awaken/img/logo_mcd.png)
+
 # 🐦 Reconocimiento de Especies de Aves
 Este repositorio contiene el backend de una aplicación web para reconocer aves en tiempo real, usando un modelo MobileNetV2 ajustado (fine-tuned).
 
@@ -11,3 +13,12 @@ Este repositorio contiene el backend de una aplicación web para reconocer aves 
 `LICENSE`: Licencia MIT.
 
 `README.md`: Documentación del proyecto (este archivo).
+
+🌎 Despliegue
+- Backend en Render:
+  [Repositorio](https://github.com/KevinMundo11/birds_prediction_b/edit/main/README.md)
+
+
+- Frontend en Vercel:
+  [Página web final](birdsprediction.vercel.app)
+
